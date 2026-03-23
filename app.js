@@ -19,7 +19,7 @@ app.use(session({
 }));
 
 // MongoDB Connection
-mongoose.connect('mongodb://127.0.0.1:27017/userApp')
+mongoose.connect(process.env.MONGO_URI)
 .then(() => console.log("DB Connected"))
 .catch(err => console.log(err));
 
