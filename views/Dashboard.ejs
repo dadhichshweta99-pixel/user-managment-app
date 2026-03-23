@@ -1,0 +1,14 @@
+<link rel="stylesheet" href="/style.css">
+<div class="container">
+<h2>Dashboard</h2>
+<a href="/logout">Logout</a>
+
+<ul>
+  <% users.forEach(user => { %>
+    <li>
+      <%= user.name %> - <%= user.email %>
+      <a href="/edit/<%= user._id %>">Edit</a>
+      <a href="/delete/<%= user._id %>">Delete</a>
+    </li>
+  <% }) %>
+</ul> </div>
