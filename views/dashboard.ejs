@@ -3,6 +3,10 @@
 <head>
   <title>Dashboard</title>
 <body>
+  <h2>Dashboard</h2>
+
+<p><%= user ? user.name : "No user" %></p>
+<p><%= user ? user.email : "" %></p>
   <h3>All Users</h3>
   <ul>
     <% users.forEach(u=> { %>
