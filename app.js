@@ -19,9 +19,13 @@ app.use(session({
 }));
 
 // MongoDB Connection
-mongoose.connect(process.env.MONGO_URI)
+mongoose.connect(process.env.MONGO_URI,
+{useNewurlParser : true ,
+    useUnifiedTopology : true
+})
 .then(() => console.log("DB Connected"))
 .catch(err => console.log(err));
+mongoose.set('strictQuery', false);
 
 // Routes
 
@@ -88,11 +92,23 @@ app.post('/login', async (req, res) => {
 
 // Dashboard (Protected)
 app.get('/dashboard', async (req, res) => {
-    if (!req.session.userId) return res.redirect('/login');
+  try {
+    if (!req.session.userId) {
+      return res.redirect('/login');
+    }
 
-    const users = await User.findById(req.session.userId);
-    if(!user) return res.redirect('/login')
-    res.render('dashboard', { users });
+    const user = await User.findById(req.session.userId);
+
+    if (!user) {
+      return res.redirect('/login');
+    }
+
+    res.render('dashboard', { user });
+
+  } catch (err) {
+    console.log(err);
+    res.send("Dashboard Error: " + err.message);
+  }
 });
 
 // Delete User
