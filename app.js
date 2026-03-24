@@ -60,29 +60,38 @@ app.get('/login', (req, res) => {
 
 // Login Logic
 app.post('/login', async (req, res) => {
+  try {
     const { email, password } = req.body;
 
     const user = await User.findOne({ email });
 
-    if (user) {
-        const isMatch = await bcrypt.compare(password, user.password);
-
-        if (isMatch) {
-            req.session.userId = user._id;
-            res.redirect('/dashboard');
-        } else {
-            res.send("Wrong password");
-        }
-    } else {
-        res.send("User not found");
+    if (!user) {
+      return res.send("User not found");
     }
+
+    const bcrypt = require('bcryptjs');
+    const isMatch = await bcrypt.compare(password, user.password);
+
+    if (!isMatch) {
+      return res.send("Wrong password");
+    }
+
+    req.session.userId = user._id;
+
+    res.redirect('/dashboard');
+
+  } catch (err) {
+    console.log(err);
+    res.send("Login Error: " + err.message);
+  }
 });
 
 // Dashboard (Protected)
 app.get('/dashboard', async (req, res) => {
     if (!req.session.userId) return res.redirect('/login');
 
-    const users = await User.find();
+    const users = await User.findById(req.session.userId);
+    if(!user) return res.redirect('/login')
     res.render('dashboard', { users });
 });
 
