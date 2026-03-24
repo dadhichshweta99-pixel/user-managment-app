@@ -90,15 +90,11 @@ app.post('/login', async (req, res) => {
 // Dashboard (Protected)
 app.get('/dashboard', async (req, res) => {
   try {
-    console.log("Session userId:", req.session.userId);
-
     if (!req.session.userId) {
       return res.redirect('/login');
     }
 
     const user = await User.findById(req.session.userId);
-
-    console.log("User from DB:", user);
 
     if (!user) {
       return res.send("User not found");
