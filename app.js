@@ -19,10 +19,7 @@ app.use(session({
 }));
 
 // MongoDB Connection
-mongoose.connect(process.env.MONGO_URI,
-{useNewurlParser : true ,
-    useUnifiedTopology : true
-})
+mongoose.connect(process.env.MONGO_URI)
 .then(() => console.log("DB Connected"))
 .catch(err => console.log(err));
 mongoose.set('strictQuery', false);
