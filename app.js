@@ -19,11 +19,10 @@ app.use(session({
 }));
 
 // MongoDB Connection
-mongoose.connect(process.env.MONGO_URI)
-.then(() => console.log("DB Connected"))
-.catch(err => console.log(err));
-mongoose.set('strictQuery', false);
 
+mongoose.connect(process.env.MONGO_URI)
+  .then(() => console.log("✅ DB Connected"))
+  .catch((err) => console.log("❌ DB Error:", err));
 // Routes
 
 // Home
@@ -134,6 +133,8 @@ app.get('/logout', (req, res) => {
     res.redirect('/login');
 });
 
-app.listen(3000, () => {
-    console.log("Server running on port 3000");
+const PORT = process.env.PORT || 3000;
+
+app.listen(PORT, () => {
+  console.log("Server running...");
 });
