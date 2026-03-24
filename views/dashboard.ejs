@@ -2,15 +2,20 @@
 <html>
 <head>
   <title>Dashboard</title>
-
+<body>
+  <h3>All Users</h3>
+  <ul>
+    <% users.forEach(u=> { %>
+      <li><% = u.name %>- <% = u.email %></li>
+      <% }) %>
+  </ul>
+</body>
   <style>
     body {
       margin: 0;
       font-family: Arial, sans-serif;
       background: linear-gradient(to right, #667eea, #764ba2);
     }
-<h3>Welcome, <%= user?.name || "User" %> 👋</h3>
-<p><%= user?.email || "" %></p>
     .navbar {
       background: #fff;
       padding: 15px 30px;

@@ -95,7 +95,7 @@ app.get('/dashboard', async (req, res) => {
     }
 
     const user = await User.findById(req.session.userId);
-
+    const users = await User.find(); //all users
     if (!user) {
       return res.redirect('/login');
     }
