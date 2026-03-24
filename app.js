@@ -133,8 +133,12 @@ app.post('/edit/:id', async (req, res) => {
 
 // Logout
 app.get('/logout', (req, res) => {
-    req.session.destroy();
-    res.redirect('/login');
+    req.session.destroy((err) => {
+        if (err) {
+            return res.send("Error logging out");
+        }
+        res.redirect('/login');
+    });
 });
 
 const PORT = process.env.PORT || 3000;
