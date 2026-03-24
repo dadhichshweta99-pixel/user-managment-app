@@ -89,20 +89,24 @@ app.post('/login', async (req, res) => {
 // Dashboard (Protected)
 app.get('/dashboard', async (req, res) => {
   try {
+    console.log("SESSION:", req.session);
+
     if (!req.session.userId) {
       return res.redirect('/login');
     }
 
     const user = await User.findById(req.session.userId);
 
+    console.log("USER:", user);
+
     if (!user) {
-      return res.send("User not found");
+      return res.redirect('/login');
     }
 
     res.render('dashboard', { user });
 
   } catch (err) {
-    console.log("Dashboard Error:", err);
+    console.log("ERROR:", err);
     res.send("Dashboard Error: " + err.message);
   }
 });
