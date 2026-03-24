@@ -38,27 +38,32 @@ app.get('/signup', (req, res) => {
 // Signup Logic
 const bcrypt = require('bcryptjs'); // add at top of file
 
-app.post('/signup', async (req, res) => {
+app.post('/login', async (req, res) => {
   try {
-    const { username, email, password } = req.body;
+    const { email, password } = req.body;
 
-    console.log("Form data:", username, email, password); // debug
+    console.log("Entered:", email, password);
 
-    const user = new User({
-      username,
-      email,
-      password
-    });
+    const user = await User.findOne({ email });
 
-    await user.save();   // 🔥 THIS IS MUST
+    if (!user) {
+      return res.send("User not found");
+    }
 
-    console.log("User saved:", user);
+    console.log("DB password:", user.password);
 
-    res.redirect('/login');
+    // ✅ FIX: trim + compare
+    if (user.password.trim() !== password.trim()) {
+      return res.send("Wrong password");
+    }
+
+    req.session.userId = user._id;
+
+    res.redirect('/dashboard');
 
   } catch (err) {
-    console.log("Signup Error:", err);
-    res.send("Error: " + err.message);
+    console.log(err);
+    res.send("Login error");
   }
 });
 // Login Page
