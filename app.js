@@ -39,20 +39,28 @@ app.get('/signup', (req, res) => {
 const bcrypt = require('bcryptjs'); // add at top of file
 
 app.post('/signup', async (req, res) => {
-    const { name, email, password } = req.body;
+  try {
+    const { username, email, password } = req.body;
 
-    const hashedPassword = await bcrypt.hash(password, 10);
+    console.log("Form data:", username, email, password); // debug
 
     const user = new User({
-        name,
-        email,
-        password: hashedPassword
+      username,
+      email,
+      password
     });
 
-    await user.save();
-    res.redirect('/login');
-});
+    await user.save();   // 🔥 THIS IS MUST
 
+    console.log("User saved:", user);
+
+    res.redirect('/login');
+
+  } catch (err) {
+    console.log("Signup Error:", err);
+    res.send("Error: " + err.message);
+  }
+});
 // Login Page
 app.get('/login', (req, res) => {
     res.render('login');
