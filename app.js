@@ -37,22 +37,24 @@ app.get('/signup', (req, res) => {
 
 // Signup Logic
 
-
 app.post('/signup', async (req, res) => {
   try {
     const { username, email, password } = req.body;
 
-    console.log("Signup data:", username, email, password);
+    console.log("Original password:", password);
+
+    // 🔥 HASH PASSWORD
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    console.log("Hashed password:", hashedPassword);
 
     const user = new User({
       username,
       email,
-      password
+      password: hashedPassword   // ✅ IMPORTANT
     });
 
     await user.save();
-
-    console.log("User saved:", user);
 
     res.redirect('/login');
 
@@ -71,26 +73,32 @@ app.post('/login', async (req, res) => {
   try {
     const { email, password } = req.body;
 
+    // 🔍 Find user
     const user = await User.findOne({ email });
 
     if (!user) {
       return res.send("User not found");
     }
 
-    
+    // 🔥 Compare password
     const isMatch = await bcrypt.compare(password, user.password);
+
+    console.log("Entered:", password);
+    console.log("Stored:", user.password);
+    console.log("Match:", isMatch);
 
     if (!isMatch) {
       return res.send("Wrong password");
     }
 
-    req.session.userId = user ._id;
+    // ✅ Session set
+    req.session.userId = user._id;
 
     res.redirect('/dashboard');
 
   } catch (err) {
     console.log(err);
-    res.send("Login Error: " + err.message);
+    res.send("Login error");
   }
 });
 
