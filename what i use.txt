@@ -1,0 +1,20 @@
+github
+render
+cloud mongodb
+
+https://user-managment-app-bsx3.onrender.com
+
+
+
+
+Built a complete full-stack application using Node.js, Express, MongoDB, and EJS
+Implemented user authentication (signup, login, logout) using sessions
+Learned how to connect backend with MongoDB Atlas for cloud data storage
+Performed CRUD operations (create, read, update, delete) on user data
+Understood deployment process using Render and handling environment variables
+Debugged real-world issues like database connection, session handling, and routing
+
+
+It’s a full-stack user authentication app with login, signup, CRUD operations, and deployed on Render using MongoDB Atlas.
+
+I faced issues with MongoDB connection, environment variables, and session handling in deployment, but I debugged them step by step using logs and testing on both local and production environments.”
