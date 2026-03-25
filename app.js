@@ -83,7 +83,7 @@ app.post('/login', async (req, res) => {
     // 🔥 Compare password
     const isMatch = await bcrypt.compare(password, user.password);
 
-    console.log("Entered:", password);
+    console.log("original password:", password);
     console.log("Stored:", user.password);
     console.log("Match:", isMatch);
 
@@ -101,7 +101,7 @@ app.post('/login', async (req, res) => {
     res.send("Login error");
   }
 });
-
+console.log("BODY:", req.body);
 // Dashboard (Protected)
 app.get('/dashboard', async (req, res) => {
   try {
