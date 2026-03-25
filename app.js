@@ -2,7 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const session = require('express-session');
 const bodyParser = require('body-parser');
-
+const bcrypt = require('bcryptjs');
 const User = require('./models/User');
 
 const app = express();
@@ -77,14 +77,14 @@ app.post('/login', async (req, res) => {
       return res.send("User not found");
     }
 
-    const bcrypt = require('bcryptjs');
+    
     const isMatch = await bcrypt.compare(password, user.password);
 
     if (!isMatch) {
       return res.send("Wrong password");
     }
 
-    req.session.userId = user._id;
+    req.session.userId = user ._id;
 
     res.redirect('/dashboard');
 
