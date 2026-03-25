@@ -2,7 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const session = require('express-session');
 const bodyParser = require('body-parser');
-const bcrypt = require('bcryptjs');
+const bcrypt = require('bcryptjs'); // add at top of file
 const User = require('./models/User');
 
 const app = express();
@@ -36,7 +36,7 @@ app.get('/signup', (req, res) => {
 });
 
 // Signup Logic
-const bcrypt = require('bcryptjs'); // add at top of file
+
 
 app.post('/signup', async (req, res) => {
   try {
